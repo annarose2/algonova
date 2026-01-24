@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman Misi Matematika Rara (Siap Quiz!)</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #ffeaa7;
+            --danger: #ff7675;
+            --bg: #dfe6e9;
+            --text: #2d3436;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--primary);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px dashed var(--secondary);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .student-profile {
+            background: #e1f5fe;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #0277bd;
+            border: 2px solid #b3e5fc;
+        }
+
+        .lesson-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .lesson-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            font-size: 0.8em;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        /* Styles for the new Cheat Sheet sections */
+        .formula-box {
+            background-color: var(--accent);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+
+        .formula-title {
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.85em;
+        }
+
+        .example-row {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2d3436;
+        }
+
+        .warning-text {
+            color: #d63031;
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* Table Styles for Word Problems */
+        .clue-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+
+        .clue-table th, .clue-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .clue-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .clue-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            background: #2d3436;
+            color: white;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎓 Rangkuman Siap Quiz</h1>
+        <p>Panduan Logika Matematika Rara (Sesi 1-7)</p>
+    </div>
+
+    <div class="student-profile">
+        Misi: Evaluasi Menuju Level 8 (Pecahan)
+    </div>
+
+    <div class="lesson-card">
+        <div class="lesson-title">
+            <span>1. Bedah Angka (Place Value)</span>
+            <span class="badge">Sesi 1</span>
+        </div>
+        <p>Angka itu seperti gerbong kereta. Posisinya menentukan nilainya.</p>
+        
+        <div class="formula-box">
+            <span class="formula-title">RUMUS BEDAH ANGKA:</span>
+            <div class="example-row">245 = 200 + 40 + 5</div>
+            <div class="warning-text">⚠️ Hati-hati! Jangan tulis 2 + 4 + 5. Itu Salah!</div>
+        </div>
+    </div>
+
+    <div class="lesson-card">
+        <div class="lesson-title">
+            <span>2. Perkalian (Toko Kue)</span>
+            <span class="badge">Sesi 4</span>
+        </div>
+        <p>Perkalian adalah penjumlahan berulang pada kelompok yang sama.</p>
+
+        <div class="formula-box">
+            <span class="formula-title">RUMUS PERKALIAN:</span>
+            <div class="example-row">[Banyak Wadah] x [Isi per Wadah]</div>
+            <p>Contoh: 3 Piring, isi 4 kue.</p>
+            <div class="example-row">3 x 4 = 12</div>
+            <div class="warning-text">⚠️ Ingat kata kunci: "SETIAP" atau "MASING-MASING".</div>
+        </div>
+    </div>
+
+    <div class="lesson-card">
+        <div class="lesson-title">
+            <span>3. Pengukuran (Arsitek)</span>
+            <span class="badge">Sesi 5</span>
+        </div>
+        <p>Mengukur jarak dari titik awal ke titik akhir.</p>
+
+        <div class="formula-box">
+            <span class="formula-title">KASUS PENGGARIS PATAH (BROKEN RULER):</span>
+            <p>Jika penggaris tidak mulai dari 0, gunakan rumus:</p>
+            <div class="example-row">Panjang = Angka Akhir - Angka Awal</div>
+            <p>Contoh: Benda dari angka 10 cm sampai 15 cm.</p>
+            <div class="example-row">15 - 10 = 5 cm</div>
+        </div>
+    </div>
+
+    <div class="lesson-card">
+        <div class="lesson-title">
+            <span>4. Pembagian (Bajak Laut)</span>
+            <span class="badge">Sesi 6</span>
+        </div>
+        <p>Membagi harta karun dengan ADIL (Sama Rata).</p>
+
+        <div class="formula-box">
+            <span class="formula-title">TRIK KEBALIKAN (INVERSE):</span>
+            <div class="example-row">Soal: 20 : 5 = ...?</div>
+            <p>Pikirkan: "5 kali berapa supaya jadi 20?"</p>
+            <div class="example-row">Jawab: 4 (Karena 5 x 4 = 20)</div>
+        </div>
+    </div>
+
+    <div class="lesson-card">
+        <div class="lesson-title">
+            <span>5. Detektif Soal Cerita</span>
+            <span class="badge">Sesi 7 - HOTS</span>
+        </div>
+        <p>Gunakan tabel ini untuk memilih alat hitung yang tepat:</p>
+
+        <table class="clue-table">
+            <thead>
+                <tr>
+                    <th>Alat</th>
+                    <th>Kata Kunci (Petunjuk)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>(+) Tambah</b></td>
+                    <td>Total, Gabung, Datang lagi, Membeli lagi.</td>
+                </tr>
+                <tr>
+                    <td><b>(-) Kurang</b></td>
+                    <td>Sisa, Selisih, Hilang, Meletus, Kembalian.</td>
+                </tr>
+                <tr>
+                    <td><b>(x) Kali</b></td>
+                    <td><b>SETIAP</b>, Masing-masing, Kelompok sama.</td>
+                </tr>
+                <tr>
+                    <td><b>(:) Bagi</b></td>
+                    <td>Dibagi rata, Dimasukkan sama banyak.</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="formula-box" style="background-color: #ffe0e0; border-left-color: #ff7675; margin-top: 15px;">
+            <span class="formula-title" style="color: #c0392b;">CONTOH SOAL 2 LANGKAH:</span>
+            <p>"10 Balon. Meletus 2. Sisanya dibagi ke 2 orang."</p>
+            <ol style="padding-left: 20px; margin: 5px 0;">
+                <li>Kurang dulu: 10 - 2 = 8</li>
+                <li>Baru Bagi: 8 : 2 = 4</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h3>🚀 Tips Mengerjakan Quiz</h3>
+        <p>1. Baca cerita sampai habis. <br> 2. Cek satuannya. <br> 3. Jangan terburu-buru!</p>
+    </div>
+
+</div>
+
+</body>
+</html>
