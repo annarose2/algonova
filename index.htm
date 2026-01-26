@@ -3,306 +3,396 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misi Angkasa: Trapesium, Layang-layang, Lingkaran</title>
+    <title>Misi Desain Armor: Visual 3D</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
+        :root {
+            --primary: #00f0ff; /* Neon Cyan */
+            --secondary: #ff0055; /* Neon Red */
+            --bg: #0a0a12; /* Dark Cyber */
+            --glass: rgba(0, 240, 255, 0.1);
+        }
 
         body {
-            font-family: 'Nunito', sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg);
             color: white;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
+        .hud-container {
+            width: 90%;
             max-width: 600px;
-            width: 100%;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        h1 {
-            font-family: 'Fredoka One', cursive;
-            color: #FFD700;
-            font-size: 2.5em;
-            text-shadow: 2px 2px #ff00de;
-            margin-bottom: 10px;
-        }
-
-        .level {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-
-        .level.active {
-            display: block;
-        }
-
-        .shape-display {
-            margin: 20px auto;
-            width: 150px;
-            height: 100px;
+            background: rgba(10, 10, 20, 0.95);
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px var(--glass);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
             position: relative;
+        }
+
+        .scan-line {
+            width: 100%; height: 2px; background: var(--primary);
+            position: absolute; top: 0; left: 0;
+            animation: scan 3s infinite linear; opacity: 0.5;
+            pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0%; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+        h1 { text-shadow: 0 0 10px var(--primary); margin-bottom: 5px; font-size: 1.5em; }
+        .subtitle { color: #aaa; font-size: 0.9em; margin-bottom: 20px; }
+
+        /* --- 3D VIEWPORT & ANIMATIONS --- */
+        .viewport {
+            height: 250px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
-            font-size: 1.2em;
+            perspective: 800px;
+            margin: 10px 0;
+            overflow: hidden;
         }
 
-        /* Visualisasi Bangun Datar dengan CSS */
-        .trapesium-shape {
-            border-bottom: 80px solid #ff6b6b;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            height: 0;
-            width: 100px;
+        /* CONTAINER UMUM UNTUK SHAPE */
+        .shape-container {
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3D 10s infinite linear;
         }
 
-        .layang-shape {
-            width: 80px;
-            height: 80px;
-            background: #4ecdc4;
-            transform: rotate(45deg);
-            border: 2px solid white;
+        @keyframes rotate3D {
+            0% { transform: rotateX(-20deg) rotateY(0deg); }
+            100% { transform: rotateX(-20deg) rotateY(360deg); }
         }
 
-        .lingkaran-shape {
-            width: 100px;
-            height: 100px;
-            background: #ffe66d;
-            border-radius: 50%;
-            border: 4px dashed #ff9f43;
-            animation: spin 10s linear infinite;
+        /* --- 1. KUBUS STYLE --- */
+        .cube { width: 100px; height: 100px; }
+        .cube .face {
+            position: absolute; width: 100px; height: 100px;
+            background: rgba(0, 240, 255, 0.15); border: 2px solid var(--primary);
+            display: flex; justify-content: center; align-items: center; font-size: 2em;
         }
+        .cube .f { transform: translateZ(50px); }
+        .cube .b { transform: rotateY(180deg) translateZ(50px); }
+        .cube .r { transform: rotateY(90deg) translateZ(50px); }
+        .cube .l { transform: rotateY(-90deg) translateZ(50px); }
+        .cube .t { transform: rotateX(90deg) translateZ(50px); }
+        .cube .btm { transform: rotateX(-90deg) translateZ(50px); }
 
-        .formula-box {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border-left: 5px solid #FFD700;
-            text-align: left;
+        /* --- 2. BALOK STYLE (Lebar) --- */
+        .balok { width: 160px; height: 80px; } /* Base dimensions */
+        .balok .face {
+            position: absolute; background: rgba(0, 240, 255, 0.15); border: 2px solid var(--primary);
         }
+        /* Depan & Belakang (160x80) */
+        .balok .f, .balok .b { width: 160px; height: 80px; }
+        .balok .f { transform: translateZ(30px); }
+        .balok .b { transform: rotateY(180deg) translateZ(30px); }
+        /* Kanan & Kiri (60x80) - Depth 60 */
+        .balok .r, .balok .l { width: 60px; height: 80px; left: 50px; } 
+        .balok .r { transform: rotateY(90deg) translateZ(80px); }
+        .balok .l { transform: rotateY(-90deg) translateZ(80px); }
+        /* Atas & Bawah (160x60) */
+        .balok .t, .balok .btm { width: 160px; height: 60px; top: 10px; }
+        .balok .t { transform: rotateX(90deg) translateZ(40px); }
+        .balok .btm { transform: rotateX(-90deg) translateZ(40px); }
 
-        .formula-title {
-            color: #FFD700;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
+        /* --- 3. TABUNG STYLE (Cylinder) --- */
+        .cylinder { width: 100px; height: 120px; }
+        .cylinder .side {
+            position: absolute; width: 100px; height: 120px;
+            background: rgba(0, 240, 255, 0.1); border-left: 1px solid var(--primary); border-right: 1px solid var(--primary);
+            border-radius: 5px; /* Fake curve */
         }
-
-        input[type="number"] {
-            padding: 10px;
-            font-size: 1.2em;
-            border-radius: 10px;
-            border: none;
-            width: 100px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        button {
-            background-color: #ff00de;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1.2em;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s, background 0.2s;
-            font-family: 'Fredoka One', cursive;
-            box-shadow: 0 4px 15px rgba(255, 0, 222, 0.4);
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            background-color: #d900bd;
-        }
-
-        .feedback {
-            margin-top: 15px;
-            font-weight: bold;
-            min-height: 20px;
-        }
-
-        .correct { color: #2ecc71; }
-        .wrong { color: #e74c3c; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .progress-bar {
-            width: 100%;
-            background-color: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            height: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: #2ecc71;
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.5s;
-        }
+        .cylinder .side:nth-child(1) { transform: rotateY(0deg) translateZ(50px); }
+        .cylinder .side:nth-child(2) { transform: rotateY(45deg) translateZ(50px); }
+        .cylinder .side:nth-child(3) { transform: rotateY(90deg) translateZ(50px); }
+        .cylinder .side:nth-child(4) { transform: rotateY(135deg) translateZ(50px); }
+        .cylinder .side:nth-child(5) { transform: rotateY(180deg) translateZ(50px); }
+        .cylinder .side:nth-child(6) { transform: rotateY(225deg) translateZ(50px); }
+        .cylinder .side:nth-child(7) { transform: rotateY(270deg) translateZ(50px); }
+        .cylinder .side:nth-child(8) { transform: rotateY(315deg) translateZ(50px); }
         
-        .hint-text {
-            font-size: 0.9em;
-            color: #ccc;
-            margin-top: 5px;
+        .cylinder .lid {
+            position: absolute; width: 100px; height: 100px;
+            background: rgba(0, 240, 255, 0.2); border: 2px solid var(--primary);
+            border-radius: 50%; left: 0;
         }
+        .cylinder .top { transform: rotateX(90deg) translateZ(60px); }
+        .cylinder .bottom { transform: rotateX(-90deg) translateZ(60px); }
 
+        /* --- 4. LIMAS STYLE (Pyramid) --- */
+        .pyramid { width: 100px; height: 100px; }
+        .pyramid .base {
+            position: absolute; width: 100px; height: 100px;
+            background: rgba(0, 240, 255, 0.2); border: 2px solid var(--primary);
+            transform: rotateX(90deg) translateZ(-50px);
+        }
+        .pyramid .tri {
+            position: absolute; width: 0; height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid rgba(0, 240, 255, 0.15);
+            left: 0; top: -50px; /* Adjust pos */
+            transform-origin: bottom center;
+        }
+        /* Borders for triangles to make them visible */
+        .pyramid .tri::after {
+            content: ''; position: absolute; width: 0; height: 0;
+            border-left: 50px solid transparent; border-right: 50px solid transparent;
+            border-bottom: 100px solid transparent; left: -50px; top: 0px;
+            border-bottom-color: transparent; border-bottom-style: solid; border-width: 2px;
+        }
+        /* Manually calculate rotation for pyramid sides */
+        .pyramid .t1 { transform: translateZ(50px) rotateX(30deg); border-bottom-color: rgba(0, 240, 255, 0.3); } 
+        .pyramid .t2 { transform: rotateY(90deg) translateZ(50px) rotateX(30deg); border-bottom-color: rgba(0, 240, 255, 0.2); }
+        .pyramid .t3 { transform: rotateY(180deg) translateZ(50px) rotateX(30deg); border-bottom-color: rgba(0, 240, 255, 0.3); }
+        .pyramid .t4 { transform: rotateY(-90deg) translateZ(50px) rotateX(30deg); border-bottom-color: rgba(0, 240, 255, 0.2); }
+
+
+        /* --- UI ELEMENTS --- */
+        .input-group { margin: 20px 0; }
+        input[type="number"] {
+            background: transparent; border: 1px solid var(--primary); color: var(--primary);
+            padding: 10px; font-size: 1.2em; width: 120px; text-align: center;
+        }
+        button {
+            background: var(--primary); color: black; border: none; padding: 10px 20px;
+            font-size: 1.1em; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s;
+        }
+        button:hover { box-shadow: 0 0 15px var(--primary); transform: scale(1.05); }
+
+        .feedback { margin-top: 15px; min-height: 1.5em; font-weight: bold; }
+        .correct { color: #0f0; } .wrong { color: var(--secondary); }
+        .progress-container { width: 100%; background: #333; height: 5px; margin-top: 20px; }
+        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="hud-container">
+        <div class="scan-line"></div>
         
-        <div id="level-0" class="level active">
-            <h1>🚀 AKADEMI ANGKASA</h1>
-            <p>Halo Kapten Umbu! Selamat datang di pelatihan pilot.</p>
-            <p>Untuk menerbangkan pesawat, kamu harus memahami 3 bentuk mesin:</p>
-            <div style="display: flex; justify-content: center; gap: 20px; margin: 20px;">
-                <span>✈️ Trapesium</span>
-                <span>🪁 Layang-layang</span>
-                <span>🪐 Lingkaran</span>
-            </div>
-            <button onclick="nextLevel(1)">SIAP MISI!</button>
-        </div>
-
-        <div id="level-1" class="level">
-            <h1>LEVEL 1: MERAKIT SAYAP</h1>
-            <div class="shape-display">
-                <div class="trapesium-shape"></div>
-            </div>
-            
-            <div class="formula-box">
-                <span class="formula-title">📐 Rumus Trapesium (Si Atap)</span>
-                "Jumlahkan Atas & Bawah, Kali Tinggi, Bagi 2"<br>
-                <b>Luas = (Atas + Bawah) × Tinggi ÷ 2</b>
-            </div>
-
-            <p>Kita perlu menghitung luas sayap pesawat.</p>
-            <p>Sisi Atas = <b>4 m</b><br>
-            Sisi Bawah = <b>6 m</b><br>
-            Tinggi = <b>5 m</b></p>
-            
-            <p class="hint-text">Tips: (4 + 6) dulu... hasilnya dikali 5... lalu dibagi 2.</p>
-
-            <input type="number" id="ans-1" placeholder="?">
+        <div id="start-screen">
+            <h1>M.A.T.A. ARMOR LAB</h1>
+            <p class="subtitle">MISSION: SURFACE AREA PROTOCOL</p>
+            <p>Agen Ali, gadget kita memiliki bentuk yang berbeda-beda.</p>
+            <p>Sesuaikan rumus dengan bentuk visualnya!</p>
             <br>
-            <button onclick="checkAnswer(1, 25)">CEK MESIN</button>
-            <p class="feedback" id="feed-1"></p>
+            <button onclick="startGame()">START MISSION</button>
         </div>
 
-        <div id="level-2" class="level">
-            <h1>LEVEL 2: DRONE SATELIT</h1>
-            <div class="shape-display">
-                <div class="layang-shape"></div>
+        <div id="game-screen" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; color: var(--primary);">
+                <span>LVL: <span id="level-indicator">1</span>/5</span>
+                <span>XP: <span id="score">0</span></span>
             </div>
 
-            <div class="formula-box">
-                <span class="formula-title">📡 Rumus Layang-layang (Si Drone)</span>
-                "Diagonal 1 Kali Diagonal 2, Bagi 2"<br>
-                <b>Luas = (d1 × d2) ÷ 2</b>
+            <div class="viewport" id="viewport">
+                </div>
+
+            <div id="question-text">
+                <p>LOADING DATA...</p>
             </div>
 
-            <p>Satelit komunikasi berbentuk layang-layang.</p>
-            <p>Kerangka Panjang (d1) = <b>10 m</b><br>
-            Kerangka Pendek (d2) = <b>4 m</b></p>
+            <div class="input-group">
+                <input type="number" id="user-answer" placeholder="Luas..."> 
+                <span>cm²</span>
+                <br>
+                <button onclick="checkAnswer()">PASANG ARMOR</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
             
-            <p class="hint-text">Tips: Kalikan 10 dan 4, lalu potong jadi dua.</p>
-
-            <input type="number" id="ans-2" placeholder="?">
-            <br>
-            <button onclick="checkAnswer(2, 20)">LUNCURKAN DRONE</button>
-            <p class="feedback" id="feed-2"></p>
-        </div>
-
-        <div id="level-3" class="level">
-            <h1>LEVEL 3: ORBIT PLANET</h1>
-            <div class="shape-display">
-                <div class="lingkaran-shape"></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress"></div>
             </div>
-
-            <div class="formula-box">
-                <span class="formula-title">🪐 Rumus Lingkaran (Si Pizza)</span>
-                "Keliling (Pagar) = Pi × Diameter"<br>
-                <b>K = π × d</b> <br>
-                <small>(Gunakan π = 22/7 karena diameternya kelipatan 7)</small>
-            </div>
-
-            <p>Pesawat harus mengorbit planet satu putaran penuh (Keliling).</p>
-            <p>Diameter Planet = <b>14.000 km</b></p>
-            
-            <p class="hint-text">Tips: 22/7 dikali 14. (Coret 7 dan 14 jadi 2).</p>
-
-            <input type="number" id="ans-3" placeholder="?">
-            <br>
-            <button onclick="checkAnswer(3, 44000)">MULAI ORBIT</button>
-            <p class="feedback" id="feed-3"></p>
         </div>
 
-        <div id="level-4" class="level">
-            <h1>🏆 MISI SUKSES!</h1>
-            <p style="font-size: 4em; margin: 20px;">👨‍🚀</p>
-            <p>Selamat Kapten Umbu!</p>
-            <p>Sayap Trapesium kokoh.<br>Drone Layang-layang terbang.<br>Orbit Lingkaran stabil.</p>
-            <button onclick="location.reload()">MAIN LAGI</button>
+        <div id="end-screen" class="hidden">
+            <h1>MISSION COMPLETE</h1>
+            <p>Status Armor M.A.T.A:</p>
+            <h2 id="final-score" style="color: var(--primary); font-size: 3em;">100%</h2>
+            <p id="final-message">Sempurna, Agen Ali!</p>
+            <button onclick="location.reload()">MAIN ULANG</button>
         </div>
-
     </div>
 
     <script>
-        function nextLevel(lvl) {
-            // Sembunyikan semua level
-            document.querySelectorAll('.level').forEach(el => el.classList.remove('active'));
-            // Tampilkan level tujuan
-            document.getElementById('level-' + lvl).classList.add('active');
-            
-            // Update Progress Bar
-            let progress = (lvl / 4) * 100;
-            document.getElementById('progress').style.width = progress + '%';
+        // --- DATABASE MISI ---
+        const missions = [
+            {
+                name: "KOTAK I.R.I.S.",
+                type: "cube",
+                desc: "Bentuk: KUBUS | Rusuk (s) = 10 cm",
+                hint: "Rumus: 6 x s x s",
+                answer: 600
+            },
+            {
+                name: "KONTAINER NITRO",
+                type: "balok",
+                desc: "Bentuk: BALOK | p=10, l=5, t=4",
+                hint: "Rumus: 2 x (pl + pt + lt)",
+                answer: 220
+            },
+            {
+                name: "TANGKI NEURO",
+                type: "cylinder",
+                desc: "Bentuk: TABUNG | r=7, t=10",
+                hint: "Rumus: 2 x 22/7 x r x (r + t)",
+                answer: 748
+            },
+            {
+                name: "JEBAKAN UNO (TERBUKA)",
+                type: "balok-open", // Visual Balok, Logika Open
+                desc: "Bentuk: BALOK TANPA TUTUP | p=10, l=10, t=5",
+                hint: "Ingat! Bagian atas bolong. Jangan hitung tutupnya.",
+                answer: 300 // Alas(100) + Dinding(200)
+            },
+            {
+                name: "UJUNG TOMBAK",
+                type: "pyramid",
+                desc: "Bentuk: LIMAS PERSEGI | Alas=10x10, Luas 1 Segitiga Tegak=60",
+                hint: "Rumus: Luas Alas + (4 x Luas Segitiga)",
+                answer: 340
+            }
+        ];
+
+        let currentLevel = 0;
+        let score = 0;
+
+        // --- DOM ELEMENTS ---
+        const gameScreen = document.getElementById('game-screen');
+        const startScreen = document.getElementById('start-screen');
+        const endScreen = document.getElementById('end-screen');
+        const viewport = document.getElementById('viewport');
+        const qText = document.getElementById('question-text');
+        const feedback = document.getElementById('feedback');
+        const pBar = document.getElementById('progress');
+
+        function startGame() {
+            startScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            loadLevel();
         }
 
-        function checkAnswer(lvl, correctAnswer) {
-            let inputVal = document.getElementById('ans-' + lvl).value;
-            let feedbackEl = document.getElementById('feed-' + lvl);
+        function loadLevel() {
+            let m = missions[currentLevel];
+            document.getElementById('level-indicator').innerText = currentLevel + 1;
+            document.getElementById('user-answer').value = '';
+            feedback.innerText = '';
+            
+            // 1. SET TEXT
+            qText.innerHTML = `
+                <h3 style="margin:5px 0; color:white;">${m.name}</h3>
+                <p>${m.desc}</p>
+                <p style="font-size: 0.8em; color: #ffcc00; font-style:italic;">${m.hint}</p>
+            `;
 
-            if (parseInt(inputVal) === correctAnswer) {
-                feedbackEl.innerHTML = "✅ KERJA BAGUS KAPTEN!";
-                feedbackEl.className = "feedback correct";
-                // Mainkan suara ting (opsional, visual saja cukup)
+            // 2. SET 3D VISUAL (INJECT HTML)
+            viewport.innerHTML = ''; // Clear previous shape
+            
+            if (m.type === 'cube') {
+                createCube();
+            } else if (m.type === 'balok' || m.type === 'balok-open') {
+                createBalok(m.type === 'balok-open');
+            } else if (m.type === 'cylinder') {
+                createCylinder();
+            } else if (m.type === 'pyramid') {
+                createPyramid();
+            }
+        }
+
+        // --- FUNGSI PEMBUAT BENTUK 3D ---
+        
+        function createCube() {
+            viewport.innerHTML = `
+                <div class="shape-container cube">
+                    <div class="face f">FRONT</div><div class="face b"></div>
+                    <div class="face r"></div><div class="face l"></div>
+                    <div class="face t"></div><div class="face btm"></div>
+                </div>`;
+        }
+
+        function createBalok(isOpen) {
+            let topStyle = isOpen ? 'border: 2px dashed red; background: transparent;' : ''; 
+            let topText = isOpen ? 'X' : '';
+            
+            viewport.innerHTML = `
+                <div class="shape-container balok">
+                    <div class="face f"></div><div class="face b"></div>
+                    <div class="face r"></div><div class="face l"></div>
+                    <div class="face t" style="${topStyle}">${topText}</div>
+                    <div class="face btm"></div>
+                </div>`;
+        }
+
+        function createCylinder() {
+            // Membuat silinder dari banyak div kecil + tutup atas bawah
+            let sides = '';
+            for(let i=0; i<8; i++) sides += `<div class="side"></div>`;
+            
+            viewport.innerHTML = `
+                <div class="shape-container cylinder">
+                    ${sides}
+                    <div class="lid top"></div>
+                    <div class="lid bottom"></div>
+                </div>`;
+        }
+
+        function createPyramid() {
+            viewport.innerHTML = `
+                <div class="shape-container pyramid">
+                    <div class="base"></div>
+                    <div class="tri t1"></div>
+                    <div class="tri t2"></div>
+                    <div class="tri t3"></div>
+                    <div class="tri t4"></div>
+                </div>`;
+        }
+
+        // --- GAME LOGIC ---
+
+        function checkAnswer() {
+            let userVal = parseInt(document.getElementById('user-answer').value);
+            let correctVal = missions[currentLevel].answer;
+
+            if (userVal === correctVal) {
+                feedback.innerHTML = "<span class='correct'>ARMOR TERPASANG!</span>";
+                score += 20;
+                document.getElementById('score').innerText = score;
+                
                 setTimeout(() => {
-                    nextLevel(lvl + 1);
+                    currentLevel++;
+                    pBar.style.width = (currentLevel / 5) * 100 + "%";
+                    if (currentLevel < missions.length) {
+                        loadLevel();
+                    } else {
+                        finishGame();
+                    }
                 }, 1500);
             } else {
-                feedbackEl.innerHTML = "❌ HITUNGAN SALAH! COBA LAGI.";
-                feedbackEl.className = "feedback wrong";
-                // Efek getar
-                document.querySelector('.container').style.transform = "translateX(5px)";
-                setTimeout(() => {
-                    document.querySelector('.container').style.transform = "translateX(0px)";
-                }, 100);
+                feedback.innerHTML = "<span class='wrong'>GAGAL! Cek Dimensi & Rumus!</span>";
             }
+        }
+
+        function finishGame() {
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            document.getElementById('final-score').innerText = score + "%";
+            
+            if(score === 100) document.getElementById('final-message').innerText = "Luas Permukaan Sempurna! Markas Aman.";
+            else document.getElementById('final-message').innerText = "Latihan lagi rumus Luas Permukaan ya.";
         }
     </script>
 </body>
