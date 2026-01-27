@@ -3,296 +3,320 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Saku Kapten Geometri</title>
+    <title>Ujian Akhir Akademi Angkasa (30 Soal)</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0fbcf9;
-            --secondary: #ffdd59;
-            --danger: #ff5e57;
-            --dark: #1e272e;
-            --light: #d2dae2;
-            --glass: rgba(255, 255, 255, 0.1);
-        }
-
         body {
             font-family: 'Nunito', sans-serif;
-            background: #000000;
-            background-image: radial-gradient(#1e272e 15%, transparent 16%),
-            radial-gradient(#1e272e 15%, transparent 16%);
-            background-size: 60px 60px;
-            background-position: 0 0, 30px 30px;
-            color: var(--light);
+            background: #1e272e;
+            color: #d2dae2;
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(30, 39, 46, 0.95);
-            border: 2px solid var(--primary);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 0 20px var(--primary);
-        }
-
-        header {
+        .header {
             text-align: center;
-            border-bottom: 3px dashed var(--primary);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            padding: 20px;
+            background: #0fbcf9;
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         h1 {
             font-family: 'Fredoka One', cursive;
-            color: var(--secondary);
-            font-size: 2.5em;
             margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px var(--danger);
+            text-shadow: 2px 2px #3c40c6;
         }
 
-        h2 {
-            font-family: 'Fredoka One', cursive;
-            color: var(--primary);
-            border-left: 5px solid var(--secondary);
-            padding-left: 15px;
-            margin-top: 40px;
-        }
-
-        /* --- CARDS & BOXES --- */
-        .concept-box {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .box {
-            flex: 1;
-            background: var(--glass);
-            border: 1px solid #57606f;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .icon-large {
-            font-size: 2em;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        /* --- TABLES --- */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th {
-            background: var(--primary);
-            color: var(--dark);
-            padding: 12px;
-            text-align: left;
-            font-family: 'Fredoka One', cursive;
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #57606f;
-        }
-
-        tr:last-child td { border-bottom: none; }
-
-        .formula {
-            font-family: 'Courier New', monospace;
+        .score-board {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffdd59;
+            color: #1e272e;
+            padding: 10px 20px;
+            border-radius: 50px;
             font-weight: bold;
             font-size: 1.2em;
-            color: var(--secondary);
-            background: rgba(0,0,0,0.3);
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: inline-block;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            border: 3px solid #ffa801;
         }
 
-        .note {
-            font-size: 0.9em;
-            color: #808e9b;
-            font-style: italic;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* --- WARNING ZONE --- */
-        .warning-zone {
-            background: rgba(255, 94, 87, 0.1);
-            border: 2px solid var(--danger);
+        .question-card {
+            background: #485460;
+            border-radius: 10px;
             padding: 20px;
-            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0fbcf9;
+            transition: transform 0.2s;
         }
 
-        .warning-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .q-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #0fbcf9;
             margin-bottom: 10px;
         }
 
-        .badge-danger {
-            background: var(--danger);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.8em;
+        .q-text {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
-        /* --- PRINT BUTTON --- */
-        .print-btn {
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .options { grid-template-columns: 1fr; }
+        }
+
+        button.opt-btn {
+            background: #1e272e;
+            color: white;
+            border: 2px solid #808e9b;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        button.opt-btn:hover {
+            background: #808e9b;
+        }
+
+        /* Feedback Styles */
+        button.correct { background: #0be881 !important; border-color: #0be881 !important; color: #1e272e; font-weight: bold; pointer-events: none; }
+        button.wrong { background: #ff5e57 !important; border-color: #ff5e57 !important; opacity: 0.7; pointer-events: none; }
+        
+        .explanation {
+            margin-top: 15px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            color: #ffdd59;
+            display: none;
+        }
+
+        .finish-btn {
             display: block;
             width: 100%;
-            margin-top: 30px;
-            padding: 15px;
-            background: var(--secondary);
-            color: var(--dark);
+            padding: 20px;
+            font-size: 1.5em;
             font-weight: bold;
-            text-align: center;
-            text-decoration: none;
+            background: #0be881;
+            border: none;
             border-radius: 10px;
-            font-size: 1.2em;
+            color: #1e272e;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 30px;
+            font-family: 'Fredoka One', cursive;
         }
-        .print-btn:hover { background: #fff; }
 
-        @media print {
-            body { background: white; color: black; }
-            .container { border: none; box-shadow: none; width: 100%; padding: 0; }
-            h1 { text-shadow: none; color: black; }
-            .formula { color: black; border: 1px solid black; }
-            .print-btn { display: none; }
-            th { background: #ddd; }
+        /* Modal Result */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
         }
+        .modal-content {
+            background: white;
+            color: black;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+        }
+        .rank-text { font-size: 2em; font-family: 'Fredoka One', cursive; color: #3c40c6; }
+        .score-big { font-size: 4em; color: #ff5e57; margin: 10px 0; font-weight: bold; }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>📘 BUKU SAKU KAPTEN</h1>
-        <p>Panduan Resmi Akademi Geometri Angkasa</p>
-    </header>
+    <div class="score-board">SKOR: <span id="current-score">0</span> / 3000</div>
 
-    <h2>1. MISI UTAMA: LUAS VS KELILING</h2>
-    <div class="concept-box">
-        <div class="box">
-            <span class="icon-large">🎨</span>
-            <h3>LUAS (Area)</h3>
-            <p>Menghitung <b>ISI</b> permukaan.</p>
-            <p class="note">Contoh: Mengecat tembok, pasang ubin.</p>
-            <p>Satuan: <b>Persegi (m²)</b></p>
+    <div class="header">
+        <h1>🚀 UJIAN GRAND ADMIRAL</h1>
+        <p>30 Soal | Materi: Semua Bangun Datar | Target: 2500 Poin</p>
+    </div>
+
+    <div class="container" id="quiz-container">
         </div>
-        <div class="box">
-            <span class="icon-large">🏃</span>
-            <h3>KELILING (Perimeter)</h3>
-            <p>Menghitung <b>PAGAR</b> pinggiran.</p>
-            <p class="note">Contoh: Lari memutar lapangan.</p>
-            <p>Satuan: <b>Biasa (m)</b></p>
+
+    <div class="container">
+        <button class="finish-btn" onclick="finishExam()">SELESAIKAN UJIAN</button>
+    </div>
+
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <h2>LAPORAN MISI</h2>
+            <div class="score-big" id="final-score-display">0</div>
+            <div class="rank-text" id="rank-display">KADET</div>
+            <p id="rank-msg">...</p>
+            <button onclick="location.reload()" style="padding:10px 20px; background:#0fbcf9; border:none; border-radius:5px; color:white; font-weight:bold; cursor:pointer;">ULANGI UJIAN</button>
         </div>
     </div>
 
-    <h2>2. KELUARGA KOTAK (TEGAK)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Bangun</th>
-                <th>Rumus LUAS (Isi)</th>
-                <th>Rumus KELILING (Pagar)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>🟦 <b>Persegi</b></td>
-                <td><span class="formula">Sisi × Sisi</span></td>
-                <td><span class="formula">Sisi × 4</span></td>
-            </tr>
-            <tr>
-                <td>▭ <b>Persegi Panjang</b></td>
-                <td><span class="formula">Panjang × Lebar</span></td>
-                <td><span class="formula">(P + L) × 2</span></td>
-            </tr>
-        </tbody>
-    </table>
+<script>
+    // --- DATABASE 30 SOAL ---
+    const questions = [
+        // --- PERSEGI & PERSEGI PANJANG (5) ---
+        { q: "Rumus LUAS Persegi adalah...", opts: ["Sisi x Sisi", "Sisi x 4", "Panjang x Lebar", "Alas x Tinggi"], a: 0, expl: "Ingat: Luas Persegi = S x S." },
+        { q: "Persegi dengan sisi 9 cm. Berapa Luasnya?", opts: ["18 cm²", "36 cm²", "81 cm²", "27 cm²"], a: 2, expl: "9 x 9 = 81." },
+        { q: "Keliling Persegi Panjang (P=10, L=5) adalah...", opts: ["15", "30", "50", "25"], a: 1, expl: "Keliling = (10+5) x 2 = 30." },
+        { q: "Lantai kamar berbentuk Persegi Luasnya 100 m². Berapa panjang sisinya?", opts: ["10 m", "20 m", "50 m", "25 m"], a: 0, expl: "Cari akar dari 100. 10 x 10 = 100." },
+        { q: "Keliling Persegi adalah 20 cm. Berapa panjang sisinya?", opts: ["4 cm", "5 cm", "10 cm", "2 cm"], a: 1, expl: "20 dibagi 4 sisi = 5." },
 
-    <h2>3. KELUARGA "BAGI DUA" (ANCIP/MIRING)</h2>
-    <p><i>Kunci: Jangan lupa dibagi 2 di akhir hitungan!</i></p>
-    <table>
-        <thead>
-            <tr>
-                <th>Bangun</th>
-                <th>Rumus LUAS</th>
-                <th>Tips Mengingat</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>🔺 <b>Segitiga</b></td>
-                <td><span class="formula">(Alas × Tinggi) ÷ 2</span></td>
-                <td>Setengahnya kotak.</td>
-            </tr>
-            <tr>
-                <td>🪁 <b>Layang-layang</b></td>
-                <td><span class="formula">(d1 × d2) ÷ 2</span></td>
-                <td>Kali silang kerangka, potong dua.</td>
-            </tr>
-            <tr>
-                <td>🏠 <b>Trapesium</b></td>
-                <td><span class="formula">(Atas + Bawah) × Tinggi ÷ 2</span></td>
-                <td>Jumlahkan dulu atap & lantai!</td>
-            </tr>
-        </tbody>
-    </table>
+        // --- SEGITIGA (5) ---
+        { q: "Rumus Luas Segitiga yang benar adalah...", opts: ["Alas x Tinggi", "(Alas x Tinggi) : 2", "Sisi x Sisi : 2", "Alas + Tinggi"], a: 1, expl: "Segitiga itu separuh kotak, jadi harus dibagi 2." },
+        { q: "Segitiga: Alas=8 cm, Tinggi=6 cm. Luasnya?", opts: ["48 cm²", "24 cm²", "14 cm²", "30 cm²"], a: 1, expl: "8 x 6 = 48. Lalu dibagi 2 = 24." },
+        { q: "Segitiga Sama Sisi, panjang sisinya 10 cm. Berapa Kelilingnya?", opts: ["20 cm", "30 cm", "40 cm", "100 cm"], a: 1, expl: "10 + 10 + 10 = 30." },
+        { q: "Luas sebuah segitiga adalah 20 cm². Jika alasnya 10 cm, tingginya berapa?", opts: ["2 cm", "4 cm", "5 cm", "10 cm"], a: 1, expl: "Luas x 2 dibagi Alas. 40 : 10 = 4." },
+        { q: "Manakah bagian segitiga yang disebut 'Tinggi'?", opts: ["Sisi miring", "Garis tegak lurus alas", "Sudut pojok", "Garis pinggir"], a: 1, expl: "Tinggi harus Tegak Lurus (L)." },
 
-    <h2>4. KELUARGA LINGKARAN (PI)</h2>
-    <div class="concept-box">
-        <div class="box" style="text-align: center;">
-            <span class="icon-large">🍕</span>
-            <p><b>Jari-jari (r)</b> = Setengah<br><b>Diameter (d)</b> = Full</p>
-            <hr>
-            <p><b>Nilai Pi (π):</b><br>
-            Pakai <b style="color:var(--secondary)">22/7</b> (Kelipatan 7)<br>
-            Pakai <b style="color:var(--secondary)">3,14</b> (Angka lain)</p>
-        </div>
-        <div class="box">
-            <p><b>1. KELILING (Pagar)</b><br>
-            Mantra: "Pi - De"<br>
-            <span class="formula">K = π × d</span></p>
-            <br>
-            <p><b>2. LUAS (Isi)</b><br>
-            Mantra: "Pi - Er - Kuadrat"<br>
-            <span class="formula">L = π × r × r</span></p>
-        </div>
-    </div>
+        // --- JAJAR GENJANG (4) ---
+        { q: "Apakah rumus Luas Jajar Genjang dibagi 2?", opts: ["Ya", "Tidak", "Kadang-kadang", "Hanya jika miring"], a: 1, expl: "Jajar genjang itu UTUH. Rumusnya Alas x Tinggi." },
+        { q: "Jajar Genjang: Alas=10, Tinggi=5, Miring=7. Luasnya?", opts: ["35", "50", "70", "25"], a: 1, expl: "Pakai Tinggi (5), buang Miring (7). 10 x 5 = 50." },
+        { q: "Keliling Jajar Genjang: Sisi alas 8cm, sisi miring 4cm.", opts: ["12 cm", "24 cm", "32 cm", "16 cm"], a: 1, expl: "(8 + 4) x 2 = 24." },
+        { q: "Jajar Genjang disebut juga...", opts: ["Persegi Penyet", "Segitiga Gabung", "Lingkaran Kotak", "Trapesium"], a: 0, expl: "Analogi kita: Persegi/Kotak yang tertiup angin (Penyet)." },
 
-    <h2>🚨 RADAR BAHAYA (HOTS)</h2>
-    <div class="warning-zone">
-        <div class="warning-item">
-            <span class="badge-danger">AWAS 1</span>
-            <span><b>Sisi Miring Jajar Genjang/Trapesium:</b> Jangan dipakai untuk menghitung LUAS! Selalu cari garis <b>TINGGI</b> (Tegak Lurus).</span>
-        </div>
-        <div class="warning-item">
-            <span class="badge-danger">AWAS 2</span>
-            <span><b>Setengah Lingkaran:</b> Jika gambarnya cuma separuh, hitung luas penuh lalu <b>BAGI 2</b> di akhir.</span>
-        </div>
-        <div class="warning-item">
-            <span class="badge-danger">AWAS 3</span>
-            <span><b>Satuan:</b> Cek apakah soal pakai 'cm' atau 'm'. Samakan dulu sebelum menghitung!</span>
-        </div>
-    </div>
+        // --- TRAPESIUM (4) ---
+        { q: "Rumus Luas Trapesium: Jumlahkan garis sejajar, kali tinggi, lalu...", opts: ["Kali 2", "Bagi 2", "Tambah 2", "Kurang 2"], a: 1, expl: "Ingat mantra: Jumlah, Kali, Bagi 2." },
+        { q: "Trapesium: Atas=4, Bawah=6, Tinggi=5. Luasnya?", opts: ["50", "25", "24", "30"], a: 1, expl: "(4+6)=10. 10 x 5=50. 50 : 2 = 25." },
+        { q: "Trapesium Siku-siku punya sisi tegak lurus yang juga berfungsi sebagai...", opts: ["Alas", "Miring", "Tinggi", "Atap"], a: 2, expl: "Sisi tegak lurus pada trapesium siku-siku adalah Tingginya." },
+        { q: "Keliling Trapesium dihitung dengan cara...", opts: ["Menjumlahkan semua sisi luar", "Menjumlahkan sisi sejajar saja", "Alas x Tinggi", "Sisi x 4"], a: 0, expl: "Keliling = Jalan-jalan mengitari pagar luar." },
 
-    <div class="print-btn" onclick="window.print()">🖨️ CETAK DOKUMEN RAHASIA INI</div>
+        // --- LAYANG-LAYANG (4) ---
+        { q: "Bagian tengah layang-layang disebut...", opts: ["Diameter", "Jari-jari", "Diagonal", "Sisi Miring"], a: 2, expl: "Kerangka layangan disebut Diagonal (d1 dan d2)." },
+        { q: "Layang-layang: d1=10, d2=5. Luasnya?", opts: ["50", "25", "15", "100"], a: 1, expl: "10 x 5 = 50. Jangan lupa dibagi 2! Jadi 25." },
+        { q: "Bangun datar yang rumusnya SAMA dengan Layang-layang adalah...", opts: ["Persegi", "Belah Ketupat", "Trapesium", "Lingkaran"], a: 1, expl: "Belah ketupat dan Layang-layang rumusnya sama: (d1 x d2) : 2." },
+        { q: "Keliling Layang-layang dengan sisi pendek 3 dan sisi panjang 7 adalah...", opts: ["10", "20", "21", "15"], a: 1, expl: "Ada 2 pendek dan 2 panjang. 3+3+7+7 = 20." },
 
-</div>
+        // --- LINGKARAN (4) ---
+        { q: "Garis dari titik pusat ke pinggir lingkaran disebut...", opts: ["Diameter", "Jari-jari (r)", "Keliling", "Sudut"], a: 1, expl: "Setengah garis = Jari-jari (r)." },
+        { q: "Jika jari-jari (r) = 7, maka Diameter (d) = ...", opts: ["3,5", "14", "21", "49"], a: 1, expl: "Diameter itu 2 kalinya r. 7 x 2 = 14." },
+        { q: "Keliling Lingkaran dengan Diameter 14 (Pakai 22/7) adalah...", opts: ["44", "22", "88", "154"], a: 0, expl: "22/7 x 14 = 44." },
+        { q: "Luas Lingkaran dengan r=10 (Pakai 3,14) adalah...", opts: ["31,4", "314", "62,8", "100"], a: 1, expl: "3,14 x 10 x 10 = 314." },
 
+        // --- SOAL CERITA & LOGIKA (4) ---
+        { q: "Pak Tani punya kebun Persegi Panjang (10m x 5m). Ia ingin pasang pagar. Berapa meter pagar yang dibeli?", opts: ["50 m", "30 m", "15 m", "100 m"], a: 1, expl: "Pagar = Keliling. (10+5) x 2 = 30." },
+        { q: "Ubin lantai bentuk Persegi sisi 50cm. Berapa luas satu ubin?", opts: ["2500 cm²", "100 cm²", "200 cm²", "50 cm²"], a: 0, expl: "50 x 50 = 2500." },
+        { q: "Bangun apa yang TIDAK memiliki sudut?", opts: ["Segitiga", "Persegi", "Lingkaran", "Trapesium"], a: 2, expl: "Lingkaran hanya punya 1 sisi lengkung, tidak punya sudut." },
+        { q: "Rumus mana yang TIDAK menggunakan pembagian 2?", opts: ["Luas Segitiga", "Luas Trapesium", "Luas Persegi Panjang", "Luas Layang-layang"], a: 2, expl: "Persegi Panjang langsung P x L. Yang lain dibagi 2." }
+    ];
+
+    // --- GAME LOGIC ---
+    let score = 0;
+    const scorePerQ = 100;
+    const container = document.getElementById('quiz-container');
+
+    // 1. Render Soal
+    function renderQuestions() {
+        questions.forEach((item, index) => {
+            // Create Card
+            let card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `q-card-${index}`;
+
+            // HTML Structure
+            let html = `
+                <div class="q-title">SOAL NO. ${index + 1}</div>
+                <div class="q-text">${item.q}</div>
+                <div class="options">
+                    ${item.opts.map((opt, i) => `
+                        <button class="opt-btn" onclick="checkAnswer(${index}, ${i}, this)">${opt}</button>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="expl-${index}">💡 ${item.expl}</div>
+            `;
+            
+            card.innerHTML = html;
+            container.appendChild(card);
+        });
+    }
+
+    // 2. Cek Jawaban
+    function checkAnswer(qIndex, optIndex, btnElement) {
+        const qData = questions[qIndex];
+        const card = document.getElementById(`q-card-${qIndex}`);
+        const allBtns = card.querySelectorAll('.opt-btn');
+        const explDiv = document.getElementById(`expl-${qIndex}`);
+
+        // Disable all buttons in this card
+        allBtns.forEach(btn => btn.disabled = true);
+
+        if (optIndex === qData.a) {
+            // BENAR
+            btnElement.classList.add('correct');
+            score += scorePerQ;
+            document.getElementById('current-score').innerText = score;
+        } else {
+            // SALAH
+            btnElement.classList.add('wrong');
+            // Highlight jawaban yang benar
+            allBtns[qData.a].classList.add('correct');
+        }
+
+        // Show Explanation
+        explDiv.style.display = 'block';
+    }
+
+    // 3. Selesai
+    function finishExam() {
+        const modal = document.getElementById('result-modal');
+        const scoreDisplay = document.getElementById('final-score-display');
+        const rankDisplay = document.getElementById('rank-display');
+        const rankMsg = document.getElementById('rank-msg');
+
+        modal.style.display = 'flex';
+        scoreDisplay.innerText = score;
+
+        // Ranking Logic
+        if (score === 3000) {
+            rankDisplay.innerText = "GRAND ADMIRAL 👑";
+            rankMsg.innerText = "SEMPURNA! Kamu adalah Legenda Matematika Angkasa!";
+            rankDisplay.style.color = "#ffd700";
+        } else if (score >= 2500) {
+            rankDisplay.innerText = "KAPTEN ELITE 👨‍✈️";
+            rankMsg.innerText = "Luar Biasa! Kemampuanmu sangat tinggi.";
+            rankDisplay.style.color = "#0be881";
+        } else if (score >= 1500) {
+            rankDisplay.innerText = "PETUGAS FLIGHT 👮";
+            rankMsg.innerText = "Bagus, tapi perlu latihan lagi di beberapa sektor.";
+            rankDisplay.style.color = "#0fbcf9";
+        } else {
+            rankDisplay.innerText = "KADET PEMULA 👶";
+            rankMsg.innerText = "Jangan menyerah! Ayo belajar rumus lagi.";
+            rankDisplay.style.color = "#808e9b";
+        }
+    }
+
+    // Initialize
+    renderQuestions();
+
+</script>
 </body>
 </html>
